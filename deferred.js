@@ -1,39 +1,38 @@
-var Deferred,
+var Deferred, Promise,
   _this = this,
   __slice = [].slice;
 
+Promise = (function() {
+
+  function Promise(_deferred) {
+    this._deferred = _deferred;
+  }
+
+  Promise.prototype.then = function(onResolved, onRejected) {
+    this._deferred._queue.push({
+      onResolved: onResolved,
+      onRejected: onRejected
+    });
+    return this;
+  };
+
+  Promise.prototype.done = function(onResolved) {
+    return this.then(onResolved);
+  };
+
+  Promise.prototype.fail = function(onRejected) {
+    return this.then(null, onRejected);
+  };
+
+  Promise.prototype.always = function(callback) {
+    return this.then(callback, callback);
+  };
+
+  return Promise;
+
+})();
+
 Deferred = (function() {
-  var Promise;
-
-  Promise = (function() {
-
-    function Promise(_deferred) {
-      this._deferred = _deferred;
-    }
-
-    Promise.prototype.then = function(onResolved, onRejected) {
-      this._deferred._queue.push({
-        onResolved: onResolved,
-        onRejected: onRejected
-      });
-      return this;
-    };
-
-    Promise.prototype.done = function(onResolved) {
-      return this.then(onResolved);
-    };
-
-    Promise.prototype.fail = function(onRejected) {
-      return this.then(null, onRejected);
-    };
-
-    Promise.prototype.always = function(callback) {
-      return this.then(callback, callback);
-    };
-
-    return Promise;
-
-  })();
 
   function Deferred() {
     var _this = this;

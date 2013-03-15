@@ -20,20 +20,18 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-class Deferred
+class Promise
+  constructor: (@_deferred) ->
+  then: (onResolved, onRejected) -> @_deferred._queue.push {onResolved, onRejected}; @
+  done: (onResolved) -> @then onResolved
+  fail: (onRejected) -> @then null, onRejected
+  always: (callback) -> @then callback, callback
 
-  class Promise
-    constructor: (@_deferred) ->
-    then: (onResolved, onRejected) ->
-      @_deferred._queue.push {onResolved, onRejected}
-      @
-    done: (onResolved) -> @then onResolved
-    fail: (onRejected) -> @then null, onRejected
-    always: (callback) -> @then callback, callback
-  
+
+class Deferred
   constructor: ->
     @_queue = []
-    @_context = null;
+    @_context = null
 
   _transition: (isResolve, args) =>
     return unless @_queue.length
@@ -56,27 +54,15 @@ class Deferred
     catch e
       @reject e
   
-  resolve: (args...) =>
-    @_transition true, args
-  
-  resolveWith: (@_context, args...) =>
-    @_transition true, args
-  
-  reject: (args...) =>
-    @_transition false, args
-  
-  rejectWith: (@_context, args...) =>
-    @_transition false, args
-
-  then: (onResolved, onRejected) ->
-    @_queue.push {onResolved, onRejected}
-    @
+  resolve: (args...) => @_transition true, args
+  resolveWith: (@_context, args...) => @_transition true, args
+  reject: (args...) => @_transition false, args
+  rejectWith: (@_context, args...) => @_transition false, args
+  then: (onResolved, onRejected) -> @_queue.push {onResolved, onRejected}; @
   done: (onResolved) -> @then onResolved
   fail: (onRejected) -> @then null, onRejected
   always: (callback) -> @then callback, callback
-
-  promise: ->
-    new Promise @
+  promise: -> new Promise @
 
 
 Deferred.isPromise = (x) ->
