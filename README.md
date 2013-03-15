@@ -41,7 +41,7 @@ wait(ms)
 .then(wait)
 .then(wait);
 
-Deferred.wait(wait(10), wait(20), wait(30))
+Deferred.when(wait(10), wait(20), wait(30))
 .then(function(a, b, c) {
   console.log(a, b, c);
 });
