@@ -7,6 +7,9 @@ An implementation of promises/A+ has jQuery like APIs.
 ### Web
 
 ```html
+<!-- [if IE 8]>
+  <script src="path/to/es5-shim.js"></script>
+</!--><![endif]-->
 <script src="path/to/deferred.min.js"></script>
 <script src="path/to/your-script.js"></script>
 ```
@@ -49,4 +52,4 @@ Deferred.when(wait(10), wait(20), wait(30))
 
 ## License
 
-Licensed under the MIT.
+Released under the MIT License.

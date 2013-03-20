@@ -29,15 +29,17 @@ class Promise
 
 
 class Deferred
+  slice = [].slice
+
   constructor: ->
     @_queue = []
     @_context = null
 
-  _transition: (isResolve, args) =>
+  _transition: (isResolve, args) ->
     return unless @_queue.length
     current = @_queue.shift()
     handler = if isResolve then current.onResolved else current.onRejected
-    return @resolve.apply @, args unless typeof handler is 'function'
+    return @_transition isResolve, args unless typeof handler is 'function'
     try
       result = handler.apply @_context, args
       if Deferred.isPromise result
@@ -45,18 +47,19 @@ class Deferred
           @_context = result._deferred._context if result._deferred?._context?
         onResolved = (args...) =>
           setContext()
-          @resolve.apply @, args
+          @resolve args...
         onRejected = (e) =>
           setContext()
           @reject e
-        return result.then onResolved, onRejected
-      @resolve result
+        result.then onResolved, onRejected
+      else
+        @resolve result
     catch e
       @reject e
-  
-  resolve: (args...) => @_transition true, args
+
+  resolve: => @_transition true, arguments
   resolveWith: (@_context, args...) => @_transition true, args
-  reject: (args...) => @_transition false, args
+  reject: => @_transition false, arguments
   rejectWith: (@_context, args...) => @_transition false, args
   then: (onResolved, onRejected) -> @_queue.push {onResolved, onRejected}; @
   done: (onResolved) -> @then onResolved
@@ -88,7 +91,7 @@ Deferred.when = (args...) ->
 
   args.forEach (arg, i) ->
     if Deferred.isPromise arg
-      arg.then ((args...) -> onResolved(i, args)), onRejected
+      arg.then ((args...) -> onResolved i, args), onRejected
     else
       onResolved i, arg
 

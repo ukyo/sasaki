@@ -1,4 +1,3 @@
-
 if (typeof define === 'function' && (define.amd != null)) {
   define(function() {
     return Deferred;
