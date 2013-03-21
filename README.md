@@ -1,4 +1,4 @@
-# promiseAplusImpl
+# sasaki
 
 An implementation of promises/A+ has jQuery like APIs.
 

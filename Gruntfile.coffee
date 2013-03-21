@@ -23,6 +23,8 @@
 module.exports = (grunt) ->
 
   grunt.initConfig
+    pkg: grunt.file.readJSON 'package.json'
+
     watch:
       files: ['deferred.coffee', 'exports.coffee']
       tasks: ['default']
@@ -33,14 +35,14 @@ module.exports = (grunt) ->
       compile:
         expand: true
         cwd: ''
-        src: ['deferred.coffee', 'exports.coffee']
+        src: ['<%= watch.files %>']
         dest: ''
         ext: '.js'
 
     uglify:
       compress:
         options:
-          banner: '// License: MIT https://github.com/ukyo/promiseAplusImpl\n'
+          banner: '// <%= pkg.name %> <%= pkg.version %> License: MIT https://github.com/ukyo/<%= pkg.name %>\n'
           wrap: 'Deferred'
         files:
           'deferred.min.js': ['deferred.js', 'exports.js']

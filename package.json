@@ -1,7 +1,7 @@
 {
-  "name": "promiseAplusImpl",
-  "version": "0.1",
-  "description": "implementation of promise/A+",
+  "name": "sasaki",
+  "version": "0.1.1",
+  "description": "An implementation of promise/A+",
   "author": "Syu Kato",
   "license": "MIT",
   "devDependencies": {
