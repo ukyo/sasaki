@@ -1,4 +1,4 @@
-# sasaki
+# sasaki [![Build Status](https://secure.travis-ci.org/ukyo/sasaki.png?branch=master)](http://travis-ci.org/ukyo/sasaki)
 
 An implementation of promises/A+ has jQuery like APIs.
 
