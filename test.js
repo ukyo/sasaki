@@ -1,7 +1,7 @@
-var Deferred = require('./deferred.min.js');
+var sasaki = require('./sasaki.min.js');
 
 function asyncSuccess() {
-  var dfd = new Deferred;
+  var dfd = sasaki.defer();
   setTimeout(function() {
     dfd.resolve('success');
   }, 0);
@@ -9,7 +9,7 @@ function asyncSuccess() {
 }
 
 function asyncError() {
-  var dfd = new Deferred;
+  var dfd = sasaki.defer();
   setTimeout(function() {
     dfd.reject('error');
   }, 0);
@@ -17,7 +17,7 @@ function asyncError() {
 }
 
 function asyncMulti() {
-  var dfd = new Deferred;
+  var dfd = sasaki.defer();
   setTimeout(function() {
     dfd.resolve(1, 2, 3);
   }, 0);
@@ -25,7 +25,7 @@ function asyncMulti() {
 }
 
 function asyncSuccessWith(context) {
-  var dfd = new Deferred;
+  var dfd = sasaki.defer();
   setTimeout(function() {
     dfd.resolveWith(context, 'success');
   }, 0);
@@ -33,11 +33,12 @@ function asyncSuccessWith(context) {
 }
 
 exports.testExported = function(test) {
-  test.ok(Deferred, 'Deferred is exported.');
-  test.ok(Deferred.isPromise, 'Deferred.isPromise is exported.');
-  test.ok(Deferred.when, 'Deferred.when is exported.');
+  test.ok(sasaki.Deferred, 'Deferred is exported.');
+  test.ok(sasaki.Deferred.isPromise, 'Deferred.isPromise is exported.');
+  test.ok(sasaki.Promise, 'sasaki.Promise is exported.');
+  test.ok(sasaki.when, 'sasaki.when is exported.');
 
-  var dfd = new Deferred;
+  var dfd = sasaki.defer();
   test.ok(dfd.resolve, 'Deferred.prototype.resolve is exported.');
   test.ok(dfd.resolveWith, 'Deferred.prototype.resolveWith is exported.');
   test.ok(dfd.reject, 'Deferred.prototype.reject is exported.');
@@ -109,11 +110,11 @@ exports.testSeriesWith = function(test) {
 exports.testParallel = function(test) {
   test.expect(8);
 
-  Deferred.when(asyncSuccess(), asyncSuccess())
+  sasaki.when(asyncSuccess(), asyncSuccess())
   .then(function(a, b) {
     test.equal(a, 'success');
     test.equal(b, 'success');
-    return Deferred.when(asyncMulti(), asyncSuccess());
+    return sasaki.when(asyncMulti(), asyncSuccess());
   })
   .then(function(a, b) {
     test.equal(a.length, 3);
@@ -121,7 +122,7 @@ exports.testParallel = function(test) {
     test.equal(a[1], 2);
     test.equal(a[2], 3);
     test.equal(b, 'success');
-    return Deferred.when(asyncSuccess(), asyncMulti(), asyncError());
+    return sasaki.when(asyncSuccess(), asyncMulti(), asyncError());
   })
   .fail(function(e) {
     test.equal(e, 'error');

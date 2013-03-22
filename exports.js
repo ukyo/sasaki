@@ -1,9 +1,9 @@
 if (typeof define === 'function' && (define.amd != null)) {
   define(function() {
-    return Deferred;
+    return sasaki;
   });
 } else if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
-  module.exports = Deferred;
+  module.exports = sasaki;
 } else {
-  global.Deferred = Deferred;
+  global.sasaki = sasaki;
 }

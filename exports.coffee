@@ -21,8 +21,8 @@
 
 
 if typeof define is 'function' and define.amd?
-  define -> Deferred
+  define -> sasaki
 else if module?.exports?
-  module.exports = Deferred
+  module.exports = sasaki
 else
-  global.Deferred = Deferred
+  global.sasaki = sasaki

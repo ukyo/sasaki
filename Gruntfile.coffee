@@ -26,7 +26,7 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON 'package.json'
 
     watch:
-      files: ['deferred.coffee', 'exports.coffee']
+      files: ['sasaki.coffee', 'exports.coffee']
       tasks: ['default']
 
     coffee:
@@ -45,7 +45,7 @@ module.exports = (grunt) ->
           banner: '// <%= pkg.name %> <%= pkg.version %> License: MIT https://github.com/ukyo/<%= pkg.name %>\n'
           wrap: 'Deferred'
         files:
-          'deferred.min.js': ['deferred.js', 'exports.js']
+          'sasaki.min.js': ['sasaki.js', 'exports.js']
 
     nodeunit:
       all: ['test.js']
