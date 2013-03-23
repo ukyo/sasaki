@@ -23,7 +23,7 @@ importScripts('path/to/sasaki.min.js');
 ### CommonJS
 
 ```javascript
-var Deferred = require('path/to/sasaki.min.js');
+var sasaki = require('path/to/sasaki.min.js');
 ```
 
 ## Usage
