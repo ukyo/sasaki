@@ -36,10 +36,6 @@ sasaki = {};
 
   })();
   Deferred = (function() {
-    var slice;
-
-    slice = [].slice;
-
     function Deferred() {
       this.rejectWith = __bind(this.rejectWith, this);
       this.reject = __bind(this.reject, this);

@@ -31,8 +31,6 @@ do ->
 
 
   class Deferred
-    slice = [].slice
-
     constructor: ->
       @_queue = []
       @_context = null
